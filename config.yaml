@@ -1,0 +1,38 @@
+agent:
+  id: "atlas-knowledge-agent"
+  name: "ATLAS 知识代理"
+  version: "1.0"
+
+cycles:
+  fast_interval_minutes: 15
+  deep_cycle_hour: 23
+  evolution_day: "sunday"
+
+llm:
+  primary: "deepseek"
+  deepseek_url: "https://api.deepseek.com"
+  deepseek_model: "deepseek-v4-flash"
+  deepseek_timeout: 90
+  ollama_url: "http://127.0.0.1:11434"
+  ollama_model: "qwen2.5:14b"
+
+embedding:
+  model: "bge-m3"
+  endpoint: "http://127.0.0.1:11434"
+
+storage:
+  qdrant: "http://127.0.0.1:6333"
+  collection: "atlas_memories_v2"
+  obsidian_vault: "/Volumes/data/obsidian-vault"
+
+autonomy:
+  max_l0_per_cycle: 10
+  max_l1_complete_per_cycle: 5
+  research_confidence_threshold: 0.7
+  must_ask_confidence_threshold: 0.6
+  l2_pending_review: false
+
+external_agents:
+  enabled: true
+  protocol: "file"
+  message_dir: "agent-brain/messages"

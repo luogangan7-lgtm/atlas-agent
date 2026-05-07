@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.atlas.agent</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- Adjust to your Python path: `which python3` -->
+        <string>/opt/homebrew/bin/python3</string>
+        <string>/path/to/atlas-agent/main.py</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/path/to/atlas-agent</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>DEEPSEEK_API_KEY</key>
+        <string>YOUR_DEEPSEEK_API_KEY_HERE</string>
+        <key>PYTHONPATH</key>
+        <string>/path/to/atlas-agent</string>
+        <!-- Optional: point to your Obsidian vault if different from config.yaml -->
+        <!-- <key>ATLAS_OBSIDIAN_VAULT</key> -->
+        <!-- <string>/Volumes/your-drive/obsidian-vault</string> -->
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/Users/YOUR_USERNAME/Library/Logs/atlas-agent.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/YOUR_USERNAME/Library/Logs/atlas-agent-error.log</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>ThrottleInterval</key>
+    <integer>60</integer>
+
+    <!-- Prevent macOS from SIGKILLing the agent during a long LLM call -->
+    <key>ExitTimeOut</key>
+    <integer>45</integer>
+</dict>
+</plist>
