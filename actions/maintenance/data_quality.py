@@ -652,6 +652,19 @@ def consolidate_obsidian_folders() -> dict:
 
 # ── Master entry point ────────────────────────────────────────────────────────
 
+def purge_superseded(level: int = 3) -> int:
+    """Delete superseded records for a given level. Safe to run periodically."""
+    deleted = qc.delete_by_filter({
+        "must": [
+            {"key": "level",  "match": {"value": level}},
+            {"key": "status", "match": {"value": "superseded"}},
+        ]
+    })
+    if deleted:
+        LOG.info(f"purge_superseded: deleted {deleted} superseded L{level} records")
+    return deleted
+
+
 def run_data_quality(evolve: bool = False) -> dict:
     """Run all data quality sub-tasks. Call from main cycle."""
     results: dict = {}
@@ -667,6 +680,10 @@ def run_data_quality(evolve: bool = False) -> dict:
     # 0. Consolidate domain folders → category folders (fast file moves)
     c = consolidate_obsidian_folders()
     results["files_consolidated"] = c["files_consolidated"]
+
+    # 0b. Purge superseded L3 records (no cap — always clean all)
+    purged = purge_superseded(level=3)
+    results["superseded_l3_purged"] = purged
 
     # 1. Empty directories (fast, no LLM)
     removed = clean_empty_dirs()

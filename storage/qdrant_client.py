@@ -81,3 +81,10 @@ def get_collection_info() -> dict:
 def count(filter_body: dict) -> int:
     r = _req("POST", f"collections/{COLLECTION}/points/count", {"filter": filter_body})
     return r.get("result", {}).get("count", 0)
+
+
+def delete_by_filter(filter_body: dict) -> int:
+    """Delete all points matching filter. Returns number of deleted points (estimated)."""
+    before = count(filter_body)
+    _req("POST", f"collections/{COLLECTION}/points/delete?wait=true", {"filter": filter_body})
+    return before
